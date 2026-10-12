@@ -1,0 +1,61 @@
+
+
+1. MỤC TIÊU
+
+- Biết cách sử dụng Pipeline (|) trong PowerShell.
+- Biết cách đọc file, lọc dữ liệu và đếm số dòng.
+- Không cần tạo file trung gian.
+- Kết quả cuối cùng chỉ hiển thị một con số.
+
+2. PHÂN TÍCH YÊU CẦU
+
+Bài tập yêu cầu đọc file access.log, tìm những dòng có chứa từ khóa TIMEOUT và đếm tổng số dòng tìm được.
+
+Em sử dụng ba lệnh Get-Content, Select-String và Measure-Object để thực hiện yêu cầu.
+
+3. SƠ ĐỒ LUỒNG DỮ LIỆU
+
+Bước 1: Đọc file
+Get-Content .\access.log
+        |
+        v
+Bước 2: Lọc dòng chứa TIMEOUT
+Select-String "TIMEOUT"
+        |
+        v
+Bước 3: Đếm số dòng
+Measure-Object -Line
+        |
+        v
+Bước 4: Chỉ lấy kết quả đếm
+.Lines
+
+Luồng dữ liệu:
+stdout -> Pipeline (|) -> stdin
+
+Dữ liệu được truyền trực tiếp giữa các lệnh trong PowerShell, không cần ghi ra file trung gian.
+
+4. CÂU LỆNH POWERSHELL HOÀN CHỈNH
+
+(Get-Content .\access.log | Select-String "TIMEOUT" | Measure-Object -Line).Lines
+
+5. GIẢI THÍCH CÂU LỆNH
+
+- Get-Content .\access.log: Đọc nội dung file access.log.
+- Select-String "TIMEOUT": Lọc những dòng có chứa từ khóa TIMEOUT.
+- Measure-Object -Line: Đếm số dòng trong kết quả.
+- .Lines: Chỉ lấy số dòng đã đếm được.
+
+6. KẾT QUẢ MINH HỌA
+
+Nếu file access.log có 42 dòng chứa TIMEOUT thì kết quả hiển thị là:
+
+42
+
+Đây chỉ là kết quả minh họa. Kết quả thực tế phụ thuộc vào nội dung file access.log.
+
+Lưu ý: Câu lệnh trên đếm các dòng chứa TIMEOUT trong toàn bộ file. Nếu file có dữ liệu của nhiều ngày thì cần lọc thêm ngày hôm nay theo định dạng thời gian trong file log.
+
+7. KẾT LUẬN
+
+Qua bài tập này, em đã biết cách sử dụng Pipeline trong PowerShell để kết nối các lệnh đọc file, lọc dữ liệu và đếm số dòng. Cách làm này giúp xử lý dữ liệu trực tiếp mà không cần tạo file trung gian và chỉ hiển thị một con số cuối cùng.
